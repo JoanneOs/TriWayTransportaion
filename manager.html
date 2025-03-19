@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Page | Triway Transportation</title>
+  <link rel="stylesheet" href="css/manager.css">
+</head>
+<body>
+  <header>
+    <h1>Manager/Dispatcher Portal</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="driver.html">Driver</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Driver Management Section -->
+  <section id="driver-management">
+    <h2>Driver Management</h2>
+    <table id="driver-table">
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>Status</th>
+          <th>Assigned Loads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Driver rows will be dynamically inserted using JS -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Load Management Section -->
+  <section id="load-management">
+    <h2>Assign Loads to Drivers</h2>
+    <form id="assign-load-form">
+      <input type="text" id="load-name" placeholder="Load Name">
+      <select id="driver-select">
+        <!-- Driver options populated dynamically -->
+      </select>
+      <button type="submit">Assign Load</button>
+    </form>
+  </section>
+
+  <script src="js/manager.js"></script>
+</body>
+</html>
