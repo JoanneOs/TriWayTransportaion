@@ -4,41 +4,104 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driver Page | Triway Transportation</title>
-  <link rel="stylesheet" href="css/driver.css"> <!-- Link to the CSS file -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css"> <!-- FullCalendar CSS -->
+  <!-- Link to custom CSS -->
+  <link rel="stylesheet" href="css/driver.css">
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
+  <!-- Header Section -->
+  <header class="bg-dark text-white p-3">
     <h1>Driver Portal</h1>
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li> <!-- Link to Home Page -->
-        <li><a href="manager.html">Manager</a></li> <!-- Link to Manager Portal -->
+      <ul class="nav">
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li> <!-- Link to Home Page -->
+        <li class="nav-item"><a class="nav-link text-white" href="manager.html">Manager</a></li> <!-- Link to Manager Portal -->
       </ul>
     </nav>
   </header>
 
-  <!-- Load Assignments Section -->
-  <section id="driver-loads">
-    <h2>Your Assigned Loads</h2>
-    <ul id="load-list">
-      <!-- Load items will be dynamically inserted here using JS -->
-    </ul>
-  </section>
+  <!-- Main Content -->
+  <div class="container my-4">
+    <!-- Current Job Section -->
+    <section id="current-job" class="mb-4">
+      <h2>Current Job</h2>
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h3>Route Details</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Route:</strong> San Antonio to Houston</p>
+          <p><strong>Departure Time:</strong> 9:00 AM</p>
+          <p><strong>Estimated Arrival:</strong> 4:00 PM</p>
+          <button class="btn btn-warning">Track Route</button> <!-- Button to track route -->
+        </div>
+      </div>
+    </section>
 
-  <!-- Schedule/Availability Calendar -->
-  <section id="schedule">
-    <h2>Your Schedule</h2>
-    <div id="calendar"></div> <!-- FullCalendar container -->
-  </section>
+    <!-- Location Tracking Section -->
+    <section id="location-tracking" class="mb-4">
+      <h2>Location Tracking</h2>
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h3>Current Location</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Current Location:</strong> San Antonio, TX</p>
+          <p><strong>Status:</strong> En Route</p>
+          <button class="btn btn-info">Update Location</button> <!-- Button to update location -->
+        </div>
+      </div>
+    </section>
 
-  <!-- Status Update Section -->
-  <section id="status-update">
-    <h2>Update Status</h2>
-    <button id="update-status-btn">Update Status</button> <!-- Status update button -->
-  </section>
+    <!-- Truck Status Section -->
+    <section id="truck-status" class="mb-4">
+      <h2>Truck Status</h2>
+      <div class="card">
+        <div class="card-header bg-warning text-dark">
+          <h3>Truck Details</h3>
+        </div>
+        <div class="card-body">
+          <p><strong>Truck #2:</strong> Running Smoothly</p>
+          <p><strong>Fuel Level:</strong> 80%</p>
+          <p><strong>Last Maintenance:</strong> 2 weeks ago</p>
+          <button class="btn btn-success">Check Status</button> <!-- Button to check truck status -->
+        </div>
+      </div>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script> <!-- FullCalendar JS -->
-  <script src="js/driver.js"></script> <!-- Link to the JavaScript file -->
+    <!-- Amazon Load Details Section -->
+    <section id="amazon-load-details" class="mb-4">
+      <h2>Amazon Load Details</h2>
+      <div class="card">
+        <div class="card-header bg-dark text-white">
+          <h3>Current Amazon Load</h3>
+        </div>
+        <div class="card-body">
+          <h5><strong>Load Information</strong></h5>
+          <p><strong>Load Type:</strong> Fulfillment Center to Delivery Station</p>
+          <p><strong>Delivery Window:</strong> 12:00 PM - 5:00 PM</p>
+          <p><strong>Amazon Load ID:</strong> <span class="badge bg-secondary">#12345</span></p>
+          <p><strong>Drop-off Location:</strong> 4567 Delivery Way, Houston, TX</p>
+          <p><strong>Instructions:</strong> Ensure all packages are delivered in the specified time window.</p>
+          <button class="btn btn-danger">Cancel Load</button> <!-- Button to cancel load -->
+          <button class="btn btn-success">Confirm Load Delivered</button> <!-- Button to confirm delivery -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-Time Updates Section -->
+    <section id="real-time-updates-section" class="mb-4">
+      <h2>Real-Time Updates</h2>
+      <p id="real-time-updates" class="alert alert-info">No updates at the moment.</p>
+    </section>
+  </div>
+
+  <!-- Link to the JavaScript file -->
+  <script src="js/driver.js"></script>
 </body>
 </html>

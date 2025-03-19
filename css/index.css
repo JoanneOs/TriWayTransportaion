@@ -1,76 +1,46 @@
-/* General styles */
+/* Custom styles for the Home page */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: #f8f9fa;
   }
   
   header {
-    background-color: #007BFF;
+    background-color: #343a40;
     color: white;
-    padding: 20px 0;
+    padding: 1rem;
     text-align: center;
   }
   
   header h1 {
-    margin: 0;
-    font-size: 2.5em;
+    margin-bottom: 0;
   }
   
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
+  .nav {
     justify-content: center;
+    margin-top: 1rem;
   }
   
-  nav ul li {
-    margin: 0 20px;
+  .nav-link {
+    color: white !important;
   }
   
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-    font-weight: bold;
+  .container {
+    margin-top: 2rem;
   }
   
-  nav ul li a:hover {
-    text-decoration: underline;
+  section {
+    margin-bottom: 2rem;
   }
   
-  /* Main content styles */
-  main {
-    padding: 40px;
-    text-align: center;
+  h2 {
+    color: #343a40;
+    margin-bottom: 1rem;
   }
   
-  main h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+  .card {
+    margin-top: 1rem;
   }
   
-  main p {
-    font-size: 1.1em;
-    max-width: 800px;
-    margin: 0 auto 30px auto;
-    line-height: 1.6;
-  }
-  
-  /* Footer styles */
   footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
+    margin-top: 2rem;
   }
-  
-  footer p {
-    margin: 0;
-  }
-  

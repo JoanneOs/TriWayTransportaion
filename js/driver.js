@@ -1,32 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch and display the load assignments dynamically
-    const loadList = document.getElementById('load-list');
-    const loads = [
-      { id: 1, name: 'Load 123', date: '2025-03-20', status: 'Pending' },
-      { id: 2, name: 'Load 456', date: '2025-03-22', status: 'Delivered' },
-    ];
+    // Simulate real-time updates
+    setInterval(() => {
+      const updates = [
+        'New load assigned: Houston to Dallas.',
+        'Reminder: Delivery window for Load #12345 ends at 5:00 PM.',
+        'Truck #2 maintenance due in 1 week.',
+      ];
+      const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
+      const updatesElement = document.getElementById('real-time-updates');
+      if (updatesElement) {
+        updatesElement.textContent = randomUpdate;
+      }
+    }, 5000); // Update every 5 seconds
   
-    // Loop through loads and create list items
-    loads.forEach(load => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${load.name} - ${load.date} (${load.status})`;
-      loadList.appendChild(listItem);
+    // Handle "Track Route" button click
+    const trackRouteButton = document.querySelector('#current-job .btn-warning');
+    trackRouteButton.addEventListener('click', () => {
+      alert('Route tracking started!');
     });
   
-    // Handle status update button
-    const updateStatusBtn = document.getElementById('update-status-btn');
-    updateStatusBtn.addEventListener('click', () => {
-      alert('Status updated successfully!'); // Mock status update
+    // Handle "Update Location" button click
+    const updateLocationButton = document.querySelector('#location-tracking .btn-info');
+    updateLocationButton.addEventListener('click', () => {
+      alert('Location updated successfully!');
     });
   
-    // Initialize FullCalendar
-    const calendarEl = document.getElementById('calendar');
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth', // Default view
-      events: [ // Mock events
-        { title: 'Load 123', start: '2025-03-20' },
-        { title: 'Load 456', start: '2025-03-22' },
-      ],
+    // Handle "Check Status" button click
+    const checkStatusButton = document.querySelector('#truck-status .btn-success');
+    checkStatusButton.addEventListener('click', () => {
+      alert('Truck status checked!');
     });
-    calendar.render(); // Render the calendar
+  
+    // Handle "Cancel Load" button click
+    const cancelLoadButton = document.querySelector('#amazon-load-details .btn-danger');
+    cancelLoadButton.addEventListener('click', () => {
+      alert('Load canceled!');
+    });
+  
+    // Handle "Confirm Load Delivered" button click
+    const confirmLoadButton = document.querySelector('#amazon-load-details .btn-success');
+    confirmLoadButton.addEventListener('click', () => {
+      alert('Load delivery confirmed!');
+    });
   });
