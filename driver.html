@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Page | Triway Transportation</title>
+  <link rel="stylesheet" href="css/driver.css">
+</head>
+<body>
+  <header>
+    <h1>Driver Portal</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="manager.html">Manager</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Load Assignments Section -->
+  <section id="driver-loads">
+    <h2>Your Assigned Loads</h2>
+    <ul id="load-list">
+      <!-- Load items will be dynamically inserted here using JS -->
+    </ul>
+  </section>
+
+  <!-- Schedule/Availability Calendar -->
+  <section id="schedule">
+    <h2>Your Schedule</h2>
+    <div id="calendar"></div>
+  </section>
+
+  <!-- Status Update Section -->
+  <section id="status-update">
+    <h2>Update Status</h2>
+    <button id="update-status-btn">Update Status</button>
+  </section>
+
+  <script src="js/driver.js"></script>
+</body>
+</html>
