@@ -75,4 +75,35 @@ body {
   button:hover {
     background-color: #0056b3;
   }
+ 
   
+  #load-boards-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  #load-boards-table th,
+  #load-boards-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #load-boards-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  #load-boards-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  #load-boards-table a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  #load-boards-table a:hover {
+    text-decoration: underline;
+  }

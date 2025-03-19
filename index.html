@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triway Transportation LLC</title>
-  <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8"> <!-- Tells the browser how to read characters (UTF-8 format) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Makes the page responsive on different devices -->
+  <title>Triway Transportation LLC</title> <!-- The title shown in the browser tab -->
+  <link rel="stylesheet" href="css/index.css"> <!-- Connects the HTML to our custom CSS for styling -->
 </head>
 <body>
+  <!-- Page Header: Welcome message and navigation links -->
   <header>
-    <h1>Welcome to Triway Transportation LLC</h1>
+    <h1>Welcome to Triway Transportation LLC</h1> <!-- Big welcome title -->
     <nav>
       <ul>
-        <li><a href="driver.html">Driver Portal</a></li>
-        <li><a href="manager.html">Manager Portal</a></li>
+        <li><a href="driver.html">Driver Portal</a></li> <!-- Takes you to the Driver Portal -->
+        <li><a href="manager.html">Manager Portal</a></li> <!-- Takes you to the Manager Portal -->
       </ul>
     </nav>
   </header>
 
   <main>
-    <section id="about">
-      <h2>About Us</h2>
-      <p>We are a leading transportation company providing reliable and efficient trucking services nationwide.</p>
+    <!-- Login Section: A simple login form -->
+    <section id="login">
+      <h2>Login</h2> <!-- Login title -->
+      <form id="login-form">
+        <label for="username">Username:</label> <!-- Username field -->
+        <input type="text" id="username" name="username" required> <!-- Where users input their username -->
+        <label for="password">Password:</label> <!-- Password field -->
+        <input type="password" id="password" name="password" required> <!-- Where users input their password -->
+        <button type="submit">Login</button> <!-- Button to submit the form -->
+      </form>
     </section>
 
+    <!-- About Us Section: Brief company description -->
+    <section id="about">
+      <h2>About Us</h2> <!-- About us title -->
+      <p>We are a leading transportation company providing reliable and efficient trucking services nationwide.</p> <!-- Short company description -->
+    </section>
+
+    <!-- Services Section: What the company offers -->
     <section id="services">
-      <h2>Our Services</h2>
-      <p>We offer load management, driver scheduling, dispatch services, and more.</p>
+      <h2>Our Services</h2> <!-- Services title -->
+      <p>We offer load management, driver scheduling, dispatch services, and more.</p> <!-- Describes what the company does -->
     </section>
   </main>
 
+  <!-- Footer Section: Bottom of the page -->
   <footer>
-    <p>&copy; 2025 Triway Transportation LLC</p>
+    <p>&copy; 2025 Triway Transportation LLC</p> <!-- Footer with copyright information -->
   </footer>
 
-  <script src="js/index.js"></script>
+  <script src="js/index.js"></script> <!-- Link to the JavaScript file that handles interactions -->
 </body>
 </html>

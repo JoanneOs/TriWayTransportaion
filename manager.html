@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manager Page | Triway Transportation</title>
-  <link rel="stylesheet" href="css/manager.css">
+  <link rel="stylesheet" href="css/manager.css"> <!-- Link to the CSS file -->
 </head>
 <body>
   <header>
     <h1>Manager/Dispatcher Portal</h1>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="driver.html">Driver</a></li>
+        <li><a href="index.html">Home</a></li> <!-- Link to Home Page -->
+        <li><a href="driver.html">Driver</a></li> <!-- Link to Driver Portal -->
       </ul>
     </nav>
   </header>
@@ -23,7 +23,7 @@
     <table id="driver-table">
       <thead>
         <tr>
-          <th>Driver Name</th>
+          <th>Driver Name</th> <!-- Table header -->
           <th>Status</th>
           <th>Assigned Loads</th>
         </tr>
@@ -38,14 +38,60 @@
   <section id="load-management">
     <h2>Assign Loads to Drivers</h2>
     <form id="assign-load-form">
-      <input type="text" id="load-name" placeholder="Load Name">
+      <input type="text" id="load-name" placeholder="Load Name" required> <!-- Load name input -->
       <select id="driver-select">
         <!-- Driver options populated dynamically -->
       </select>
-      <button type="submit">Assign Load</button>
+      <button type="submit">Assign Load</button> <!-- Submit button -->
     </form>
   </section>
 
-  <script src="js/manager.js"></script>
+  <!-- Hiring Application Section -->
+<section id="hiring">
+    <h2>Hiring Application</h2>
+    <form id="hiring-form">
+      <input type="text" id="applicant-name" placeholder="Your Name" required>
+      <input type="email" id="applicant-email" placeholder="Your Email" required>
+      <input type="file" id="applicant-resume" accept=".pdf,.doc,.docx" required>
+      <button type="submit">Submit Application</button>
+    </form>
+  </section>
+  
+  <!-- Load Boards Section -->
+  
+  
+  <!-- Real-Time Updates Section -->
+  <section id="real-time-updates-section">
+    <h2>Real-Time Updates</h2>
+    <p id="real-time-updates">No updates at the moment.</p>
+  </section>
+
+  <section id="load-boards">
+    <h2>Access Load Boards</h2>
+    <table id="load-boards-table">
+      <thead>
+        <tr>
+          <th>Load Board</th>
+          <th>Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Relay/Amazon</td>
+          <td><a href="https://relay.amazon.com" target="_blank">Visit Relay/Amazon</a></td>
+        </tr>
+        <tr>
+          <td>DatOne</td>
+          <td><a href="https://www.dat.com" target="_blank">Visit DatOne</a></td>
+        </tr>
+        <tr>
+          <td>Uber Freight</td>
+          <td><a href="https://www.uberfreight.com" target="_blank">Visit Uber Freight</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script src="js/manager.js"></script> <!-- Link to the JavaScript file -->
 </body>
 </html>
