@@ -119,10 +119,16 @@
     </div>
 
     <!-- In your existing HTML file, add this to your main section -->
+<!-- Replace your current weather div with this -->
 <div id="weather">
   <h2>Current Weather</h2>
-  <p id="weather-info">Loading weather data...</p>
-
+  <div class="input-group mb-3">
+    <input type="text" id="weather-search" class="form-control" placeholder="Enter city name">
+    <button id="weather-search-btn" class="btn btn-primary">Search</button>
+  </div>
+  <div id="weather-info" class="weather-card">
+    <!-- Weather data will appear here -->
+  </div>
 </div>
 
 
