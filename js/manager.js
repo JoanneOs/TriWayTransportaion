@@ -1,6 +1,3 @@
-
-// update to live server
-
 document.addEventListener('DOMContentLoaded', () => {
   // Sample data for drivers
   const drivers = [
@@ -124,3 +121,39 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>`;
   });
 });
+
+// Your WeatherAPI API key
+const apiKey = '6ba75e55e5c64569866191244252803'; // Your API key
+
+// The city you want the weather data for
+const city = 'London'; // Replace this with your preferred city
+
+// Function to fetch weather data
+function getWeather() {
+    const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Extracting the necessary information from the API response
+            const temperature = data.current.temp_c;
+            const weatherDescription = data.current.condition.text;
+
+            // Updating the HTML to show the weather data
+            const weatherInfo = `Temperature: ${temperature}°C, Condition: ${weatherDescription}`;
+            document.getElementById('weather-info').innerText = weatherInfo;
+        })
+        .catch(error => {
+            // Handling any errors
+            document.getElementById('weather-info').innerText = 'Could not load weather data.';
+            console.error('Error fetching weather data:', error);
+        });
+}
+
+// Call the function to get weather when the page loads
+getWeather();
