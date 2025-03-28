@@ -94,3 +94,22 @@ h1 {
     background-color: #fdecea;
     border-radius: 8px;
 }
+
+.weather-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.weather-card img {
+  width: 64px;
+  height: 64px;
+  margin-right: 20px;
+}
+
+.weather-card .weather-details {
+  flex-grow: 1;
+}
