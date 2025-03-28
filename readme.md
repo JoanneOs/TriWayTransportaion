@@ -9,3 +9,13 @@ To get started, open the index.html file. From there, explore the driver and man
 The app uses HTML, CSS, and JavaScript, along with the FullCalendar library for an easy-to-read driver schedule.
 
 This simple tool can be expanded in the future with real-time updates, data storage, and advanced scheduling features.
+
+What I've Adding: 3/38/2025
+
+I took my basic same trucking website and made it way more useful for managers. I added a live weather check, so managers can type in a city like "San Antonio" and see the current weather.
+
+I also built a dashboard with status cards that show available drivers, active shipments, and delays, all in a clean and easy-to-read design.
+
+I made sure the page loads smoothly with loading spinners, so it never freezes.
+
+This started as a simple project but is turning into something a small trucking company could actually use.
