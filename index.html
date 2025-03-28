@@ -70,6 +70,36 @@
     </section>
   </div>
 
+  <h2>first time trying real info trips from last week</h2>
+
+  <div id="trips-container"></div>
+
+<script>
+  fetch('https://triwaytransportation.netlify.app/trips.json')  // Update URL!
+    .then(res => res.json())
+    .then(trips => {
+      let html = '';
+      trips.forEach(trip => {
+        html += `
+          <div class="trip">
+            <h3>${trip['Trip ID'] || trip['trip_id'] || 'N/A'}</h3>
+            <p><strong>Status:</strong> ${trip.Status || trip.status}</p>
+          </div>
+        `;
+      });
+      document.getElementById('trips-container').innerHTML = html;
+    });
+</script>
+
+<style>
+  .trip {
+    background: #f8f9fa;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+</style>
+
   <!-- Footer Section -->
   <footer class="bg-dark text-white text-center p-3">
     <p>&copy; 2025 Triway Transportation LLC. All rights reserved.</p>
