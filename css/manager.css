@@ -246,3 +246,7 @@ h1 {
   padding: 10px;
   border-radius: 5px;
 }
+
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+}

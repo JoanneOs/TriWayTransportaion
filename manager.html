@@ -133,10 +133,7 @@
 
   <!-- Link to the JavaScript file -->
   <script src="js/manager.js"></script>
-  <h1>Current Trips</h1>
-    <div id="trips-container">
-        <!-- Trips will be inserted here by JavaScript -->
-    </div>
+ 
 
     <!-- In your existing HTML file, add this to your main section -->
 <!-- Replace your current weather div with this -->
@@ -182,5 +179,13 @@
   </div>
 </div>
 
+<script>
+  // Test if the file exists
+  fetch('./js/trips.json')
+    .then(r => r.text())
+    .then(t => console.log('File contents:', t.slice(0, 100) + '...'))
+    .catch(e => console.error('Test failed:', e));
+  </script>
+<script type="module" src="js/manager.js"></script>
 </body>
 </html>

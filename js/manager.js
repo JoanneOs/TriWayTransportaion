@@ -1,299 +1,215 @@
-// Main wrapper using async IIFE to enable top-level await
-(async function() {
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      // ======================
-      // 1. DRIVER MANAGEMENT
-      // ======================
-      const loadDrivers = async () => {
-        return new Promise(resolve => {
-          // Simulating API call with timeout
-          setTimeout(() => {
-            resolve([
-              { name: 'John Doe', status: 'En Route', loads: 3 },
-              { name: 'Jane Smith', status: 'Available', loads: 1 }
-            ]);
-          }, 300);
-        });
-      };
+// // At the top of manager.js
+// import tripsData from './trips.json' assert { type: 'json' };
 
-      const drivers = await loadDrivers();
-      await renderDriverTable(drivers);
-      await populateDriverSelect(drivers);
+// // Replace loadTripsData() with:
+// async function loadTripsData() {
+//   return tripsData;
+// }
 
-      // ======================
-      // 2. LOAD ASSIGNMENT
-      // ======================
-      setupLoadAssignment();
+// Main application controller
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+    // Load and display trips
+    const trips = await loadTrips();
+    renderTrips(trips);
+    
+    // Initialize other functionality
+    initializeDriverManagement();
+    setupRealTimeUpdates();
+    
+  } catch (error) {
+    console.error('Application failed to initialize:', error);
+    showError('Failed to load application data. Please refresh the page.');
+  }
+});
 
-      // ======================
-      // 3. HIRING APPLICATION
-      // ======================
-      setupHiringForm();
+// ======================
+// CORE TRIP MANAGEMENT
+// ======================
 
-      // ======================
-      // 4. REAL-TIME UPDATES
-      // ======================
-      startRealTimeUpdates();
-
-      // ======================
-      // 5. TRIPS DATA (Parallel load with weather)
-      // ======================
-      const tripsPromise = loadTripsData()
-        .then(trips => renderTrips(trips))
-        .catch(showFallbackTrips);
-
-      // ======================
-      // 6. WEATHER WIDGET (Parallel load)
-      // ======================
-      const weatherPromise = initializeWeatherWidget();
-
-      // Wait for both to complete
-      await Promise.all([tripsPromise, weatherPromise]);
-
-    } catch (error) {
-      console.error('Initialization error:', error);
-      showErrorNotification('Some features failed to load');
+/**
+ * Loads trips data from JSON file
+ */
+async function loadTrips() {
+  try {
+    // Try multiple possible paths
+    const response = await fetch('./js/trips.json') || 
+                     await fetch('trips.json');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    
+    const trips = await response.json();
+    console.log(`Loaded ${trips.length} trips successfully`);
+    return trips;
+    
+  } catch (error) {
+    console.error('Failed to load trips:', error);
+    throw error;
+  }
+}
+
+/**
+ * Renders trips into the table
+ */
+function renderTrips(trips) {
+  const tableBody = document.getElementById('trips-table-body');
+  
+  if (!tableBody) {
+    console.error('Trips table body not found!');
+    return;
+  }
+
+  tableBody.innerHTML = trips.map(trip => `
+    <tr>
+      <td>${trip['Trip ID'] || 'N/A'}</td>
+      <td>${trip['Driver Name'] || 'Unassigned'}</td>
+      <td>${formatRoute(trip['Facility Sequence'])}</td>
+      <td>${createStatusBadge(trip['Trip Stage'])}</td>
+      <td>
+        <button class="btn btn-sm btn-primary view-details"
+                data-trip-id="${trip['Trip ID']}">
+          <i class="bi bi-eye"></i> View
+        </button>
+      </td>
+    </tr>
+  `).join('');
+
+  // Add event listeners to detail buttons
+  document.querySelectorAll('.view-details').forEach(button => {
+    button.addEventListener('click', () => {
+      const tripId = button.getAttribute('data-trip-id');
+      const trip = trips.find(t => t['Trip ID'] === tripId);
+      showTripModal(trip);
+    });
   });
+}
 
-  // ======================
-  // HELPER FUNCTIONS
-  // ======================
+// Helper function to format route display
+function formatRoute(route) {
+  if (!route) return 'N/A';
+  return route.replace(/->/g, ' → ');
+}
 
-  async function renderDriverTable(drivers) {
-    return new Promise(resolve => {
-      const driverTableBody = document.querySelector('#driver-table tbody');
-      if (driverTableBody) {
-        driverTableBody.innerHTML = drivers.map(driver => `
-          <tr>
-            <td>${driver.name}</td>
-            <td>${driver.status}</td>
-            <td>${driver.loads}</td>
-          </tr>
-        `).join('');
-      }
-      resolve();
-    });
-  }
+// Helper function to create status badges
+function createStatusBadge(status) {
+  const statusText = status || 'Unknown';
+  let badgeClass = 'bg-secondary';
+  
+  if (/completed/i.test(statusText)) badgeClass = 'bg-success';
+  else if (/canceled/i.test(statusText)) badgeClass = 'bg-danger';
+  else if (/active|in progress/i.test(statusText)) badgeClass = 'bg-primary';
+  
+  return `<span class="badge ${badgeClass}">${statusText}</span>`;
+}
 
-  async function populateDriverSelect(drivers) {
-    return new Promise(resolve => {
-      const driverSelect = document.getElementById('driver-select');
-      if (driverSelect) {
-        driverSelect.innerHTML = drivers.map(driver => 
-          `<option value="${driver.name}">${driver.name}</option>`
-        ).join('');
-      }
-      resolve();
-    });
-  }
+// ======================
+// TRIP DETAILS MODAL
+// ======================
 
-  function setupLoadAssignment() {
-    const assignLoadForm = document.getElementById('assign-load-form');
-    if (assignLoadForm) {
-      assignLoadForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const loadName = document.getElementById('load-name')?.value;
-        const driverName = document.getElementById('driver-select')?.value;
-
-        if (loadName && driverName) {
-          await simulateLoadAssignment(loadName, driverName);
-          assignLoadForm.reset();
-        } else {
-          showErrorNotification('Please enter a load name and select a driver');
-        }
-      });
-    }
-  }
-
-  async function simulateLoadAssignment(loadName, driverName) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        alert(`Load "${loadName}" assigned to ${driverName}`);
-        resolve();
-      }, 500);
-    });
-  }
-
-  function setupHiringForm() {
-    const hiringForm = document.getElementById('hiring-form');
-    if (hiringForm) {
-      hiringForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(hiringForm);
-        
-        try {
-          await submitHiringApplication(formData);
-          hiringForm.reset();
-          showSuccessNotification('Application submitted successfully!');
-        } catch (error) {
-          showErrorNotification('Failed to submit application');
-        }
-      });
-    }
-  }
-
-  async function submitHiringApplication(formData) {
-    return new Promise((resolve, reject) => {
-      // Simulate API call
-      setTimeout(() => {
-        if (formData.get('applicant-name') && formData.get('applicant-email')) {
-          console.log('Application data:', Object.fromEntries(formData));
-          resolve();
-        } else {
-          reject(new Error('Missing required fields'));
-        }
-      }, 800);
-    });
-  }
-
-  function startRealTimeUpdates() {
-    const updatesElement = document.getElementById('real-time-updates');
-    if (updatesElement) {
-      setInterval(async () => {
-        const update = await fetchRandomUpdate();
-        updatesElement.textContent = update;
-      }, 5000);
-    }
-  }
-
-  async function fetchRandomUpdate() {
-    const updates = [
-      'New load available on Relay/Amazon.',
-      'Driver John Doe has completed Load 123.',
-      'Reminder: Check Uber Freight for new loads.',
-    ];
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(updates[Math.floor(Math.random() * updates.length)]);
-      }, 200);
-    });
-  }
-
-  async function loadTripsData() {
-    try {
-      const response = await fetch('data/trips.json');
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      console.error('Error loading trips:', error);
-      throw error;
-    }
-  }
-
-  async function renderTrips(trips) {
-    const container = document.getElementById('trips-container');
-    if (container) {
-      container.innerHTML = trips.map(trip => `
-        <div class="trip-card mb-3 p-3 border rounded">
-          <h3>Trip ID: ${trip['Trip ID'] || 'N/A'}</h3>
-          <p><strong>Status:</strong> ${trip.Status || 'Unknown'}</p>
-          <p><strong>Route:</strong> ${trip.Origin || 'N/A'} → ${trip.Destination || 'N/A'}</p>
-          <p><strong>Driver:</strong> ${trip.Driver || 'Not assigned'}</p>
-        </div>
-      `).join('');
-    }
-  }
-
-  async function showFallbackTrips() {
-    const container = document.getElementById('trips-container');
-    if (container) {
-      container.innerHTML = `
-        <div class="alert alert-warning">
-          Couldn't load trips. Showing sample data.
-        </div>
-        <div class="trip-card mb-3 p-3 border rounded">
-          <h3>Trip ID: DEMO-001</h3>
-          <p><strong>Status:</strong> Active</p>
-          <p><strong>Route:</strong> Austin → San Antonio</p>
-          <p><strong>Driver:</strong> Jane Smith</p>
-        </div>
-      `;
-    }
-  }
-
-  async function initializeWeatherWidget() {
-    const weatherApiKey = '6ba75e55e5c64569866191244252803';
-    const weatherInfo = document.getElementById('weather-info');
-    const weatherSearchInput = document.getElementById('weather-search');
-    const weatherSearchBtn = document.getElementById('weather-search-btn');
-
-    if (!weatherInfo || !weatherSearchInput || !weatherSearchBtn) return;
-
-    // Initialize with default city
-    await updateWeather('San Antonio');
-
-    // Setup event listeners
-    weatherSearchBtn.addEventListener('click', async () => {
-      const city = weatherSearchInput.value.trim();
-      if (city) await updateWeather(city);
-    });
-
-    weatherSearchInput.addEventListener('keypress', async (e) => {
-      if (e.key === 'Enter') {
-        const city = weatherSearchInput.value.trim();
-        if (city) await updateWeather(city);
-      }
-    });
-  }
-
-  async function updateWeather(city) {
-    const weatherInfo = document.getElementById('weather-info');
-    if (!weatherInfo) return;
-
-    try {
-      weatherInfo.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"></div></div>';
-      
-      const data = await fetchWeatherData(city);
-      displayWeather(data);
-    } catch (error) {
-      console.error('Weather fetch error:', error);
-      weatherInfo.innerHTML = `
-        <div class="alert alert-danger">
-          Could not load weather data: ${error.message}
-        </div>
-      `;
-    }
-  }
-
-  async function fetchWeatherData(city) {
-    const response = await fetch(
-      `https://api.weatherapi.com/v1/current.json?key=6ba75e55e5c64569866191244252803&q=${encodeURIComponent(city)}&aqi=no`
-    );
-    if (!response.ok) throw new Error(`API Error: ${response.status}`);
-    return await response.json();
-  }
-
-  function displayWeather(data) {
-    const weatherInfo = document.getElementById('weather-info');
-    if (!weatherInfo) return;
-
-    weatherInfo.innerHTML = `
-      <div class="d-flex align-items-center">
-        <img src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" class="me-3">
-        <div>
-          <h4>${data.location.name}, ${data.location.country}</h4>
-          <p class="mb-1"><strong>${data.current.temp_c}°C</strong> (Feels like ${data.current.feelslike_c}°C)</p>
-          <p class="mb-1">${data.current.condition.text}</p>
-          <p class="mb-1">Humidity: ${data.current.humidity}%</p>
-          <p class="mb-0">Wind: ${data.current.wind_kph} km/h ${data.current.wind_dir}</p>
+function showTripModal(trip) {
+  if (!trip) return;
+  
+  const modalHtml = `
+    <div class="modal fade" id="tripDetailsModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Trip ${trip['Trip ID']}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h6>Driver Information</h6>
+                <p><strong>Name:</strong> ${trip['Driver Name'] || 'N/A'}</p>
+                <p><strong>Vehicle:</strong> ${trip['Tractor Vehicle ID'] || 'N/A'}</p>
+              </div>
+              <div class="col-md-6">
+                <h6>Trip Information</h6>
+                <p><strong>Status:</strong> ${createStatusBadge(trip['Trip Stage'])}</p>
+                <p><strong>Distance:</strong> ${trip['Estimate Distance'] || '0'} ${trip['Unit'] || 'miles'}</p>
+              </div>
+            </div>
+            
+            <hr>
+            
+            <h5 class="mt-3">Route Details</h5>
+            ${renderStopDetails(trip)}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
-    `;
-  }
+    </div>
+  `;
+  
+  // Add to DOM and show
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+  const modal = new bootstrap.Modal(document.getElementById('tripDetailsModal'));
+  modal.show();
+  
+  // Clean up after close
+  document.getElementById('tripDetailsModal').addEventListener('hidden.bs.modal', () => {
+    document.getElementById('tripDetailsModal').remove();
+  });
+}
 
-  function showSuccessNotification(message) {
-    // Implement a proper notification system
-    alert(message);
+function renderStopDetails(trip) {
+  let html = '';
+  for (let i = 1; i <= 2; i++) {
+    if (trip[`Stop ${i}`]) {
+      html += `
+        <div class="card mb-2">
+          <div class="card-body">
+            <h6 class="card-title">Stop ${i}: ${trip[`Stop ${i}`]}</h6>
+            <div class="row">
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Planned Arrival:</strong></p>
+                <p>${trip[`Stop ${i} Planned Arrival Date`]} ${trip[`Stop ${i} Planned Arrival Time`]}</p>
+              </div>
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Actual Arrival:</strong></p>
+                <p>${trip[`Stop ${i} Actual Arrival Date`] || '--'} ${trip[`Stop ${i} Actual Arrival Time`] || ''}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
+  return html || '<p class="text-muted">No stop details available</p>';
+}
 
-  function showErrorNotification(message) {
-    // Implement a proper notification system
-    alert(message);
-  }
-})();
-//no need to Enable user manipulation of data within the API through the use of POST, PUT, or
-//PATCH requests. Ensure your chosen API supports this feature before beginning.
+// ======================
+// ADDITIONAL FUNCTIONALITY
+// ======================
 
+function initializeDriverManagement() {
+  // Your existing driver management code
+  // ...
+}
+
+function setupRealTimeUpdates() {
+  // Your existing real-time updates code
+  // ...
+}
+
+function showError(message) {
+  const alert = document.createElement('div');
+  alert.className = 'alert alert-danger position-fixed top-0 end-0 m-3';
+  alert.style.zIndex = '1000';
+  alert.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  document.body.appendChild(alert);
+  
+  // Auto-dismiss after 5 seconds
+  setTimeout(() => {
+    alert.remove();
+  }, 5000);
+}
 
