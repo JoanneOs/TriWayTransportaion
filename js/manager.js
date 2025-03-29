@@ -1,7 +1,7 @@
 // Configuration Constants
 
 //new cons for pay rate
-const PAY_RATE_PER_MILE = 0.5; // $1.20 per mile
+const PAY_RATE_PER_MILE = 1.2; // $1.20 per mile
 
 // Stores the API key used to fetch weather data from a weather service
 const WEATHER_API_KEY = '2a7d6ec8fb25451b9ac114954252903';
