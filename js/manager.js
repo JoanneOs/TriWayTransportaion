@@ -7,6 +7,11 @@
 // }
 
 // Main application controller
+// Configuration Constants
+const WEATHER_API_KEY = '2a7d6ec8fb25451b9ac114954252903';
+const TRIPS_DATA_PATH = './js/trips.json';
+
+// Main application controller
 document.addEventListener('DOMContentLoaded', async function() {
   try {
     // Load and display trips
@@ -16,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize other functionality
     initializeDriverManagement();
     setupRealTimeUpdates();
+    initializeWeatherWidget();
     
   } catch (error) {
     console.error('Application failed to initialize:', error);
@@ -27,14 +33,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 // CORE TRIP MANAGEMENT
 // ======================
 
-/**
- * Loads trips data from JSON file
- */
 async function loadTrips() {
   try {
-    // Try multiple possible paths
-    const response = await fetch('./js/trips.json') || 
-                     await fetch('trips.json');
+    const response = await fetch(TRIPS_DATA_PATH);
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -50,9 +51,6 @@ async function loadTrips() {
   }
 }
 
-/**
- * Renders trips into the table
- */
 function renderTrips(trips) {
   const tableBody = document.getElementById('trips-table-body');
   
@@ -86,13 +84,11 @@ function renderTrips(trips) {
   });
 }
 
-// Helper function to format route display
 function formatRoute(route) {
   if (!route) return 'N/A';
   return route.replace(/->/g, ' → ');
 }
 
-// Helper function to create status badges
 function createStatusBadge(status) {
   const statusText = status || 'Unknown';
   let badgeClass = 'bg-secondary';
@@ -132,9 +128,7 @@ function showTripModal(trip) {
                 <p><strong>Distance:</strong> ${trip['Estimate Distance'] || '0'} ${trip['Unit'] || 'miles'}</p>
               </div>
             </div>
-            
             <hr>
-            
             <h5 class="mt-3">Route Details</h5>
             ${renderStopDetails(trip)}
           </div>
@@ -184,7 +178,97 @@ function renderStopDetails(trip) {
 }
 
 // ======================
-// ADDITIONAL FUNCTIONALITY
+// WEATHER WIDGET
+// ======================
+
+function initializeWeatherWidget() {
+  const weatherSearchInput = document.getElementById('weather-search');
+  const weatherSearchBtn = document.getElementById('weather-search-btn');
+  
+  // Default city
+  updateWeather('San Antonio');
+  
+  // Event listeners
+  weatherSearchBtn?.addEventListener('click', () => {
+    const city = weatherSearchInput?.value.trim();
+    if (city) updateWeather(city);
+  });
+  
+  weatherSearchInput?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const city = weatherSearchInput.value.trim();
+      if (city) updateWeather(city);
+    }
+  });
+}
+
+async function updateWeather(city) {
+  const weatherInfo = document.getElementById('weather-info');
+  if (!weatherInfo) return;
+
+  try {
+    weatherInfo.innerHTML = `
+      <div class="weather-loading">
+        <div class="spinner-border text-primary"></div>
+        <span>Loading weather...</span>
+      </div>
+    `;
+    
+    const data = await fetchWeather(city);
+    displayWeather(data);
+    
+  } catch (error) {
+    console.error('Weather fetch error:', error);
+    weatherInfo.innerHTML = `
+      <div class="alert alert-warning">
+        Weather unavailable: ${error.message}
+        <button class="btn btn-sm btn-primary mt-2" 
+                onclick="updateWeather('${city}')">
+          Retry
+        </button>
+      </div>
+    `;
+  }
+}
+
+async function fetchWeather(city) {
+  const response = await fetch(
+    `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(city)}`
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Weather API error: ${response.status}`);
+  }
+  
+  return await response.json();
+}
+
+function displayWeather(data) {
+  const weatherInfo = document.getElementById('weather-info');
+  if (!weatherInfo) return;
+
+  weatherInfo.innerHTML = `
+    <div class="weather-card">
+      <div class="weather-header">
+        <h4>${data.location.name}, ${data.location.country}</h4>
+        <img src="https:${data.current.condition.icon}" 
+             alt="${data.current.condition.text}">
+      </div>
+      <div class="weather-main">
+        <div class="weather-temp">${data.current.temp_c}°C</div>
+        <div class="weather-condition">${data.current.condition.text}</div>
+      </div>
+      <div class="weather-details">
+        <div><span>Feels like:</span> ${data.current.feelslike_c}°C</div>
+        <div><span>Humidity:</span> ${data.current.humidity}%</div>
+        <div><span>Wind:</span> ${data.current.wind_kph} km/h ${data.current.wind_dir}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ======================
+// UTILITY FUNCTIONS
 // ======================
 
 function initializeDriverManagement() {
@@ -213,3 +297,10 @@ function showError(message) {
   }, 5000);
 }
 
+// Debug function to test weather API
+function testWeatherAPI() {
+  console.log('Testing Weather API...');
+  fetchWeather('San Antonio')
+    .then(data => console.log('Weather test successful:', data.location))
+    .catch(err => console.error('Weather test failed:', err));
+}

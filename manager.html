@@ -27,90 +27,7 @@
 
   <!-- Main Content -->
   <div class="container my-4">
-    <!-- Driver Management Section -->
-    <section id="driver-management" class="mb-4">
-      <h2>Driver Management</h2>
-      <table id="driver-table" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Driver Name</th> <!-- Table header -->
-            <th>Status</th>
-            <th>Assigned Loads</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Driver rows will be dynamically inserted using JS -->
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Load Management Section -->
-    <section id="load-management" class="mb-4">
-      <h2>Assign Loads to Drivers</h2>
-      <form id="assign-load-form" class="form-inline">
-        <div class="form-group mb-2">
-          <input type="text" id="load-name" class="form-control" placeholder="Load Name" required> <!-- Load name input -->
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-          <select id="driver-select" class="form-control">
-            <!-- Driver options populated dynamically -->
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary mb-2">Assign Load</button> <!-- Submit button -->
-      </form>
-    </section>
-
-    <!-- Hiring Application Section -->
-    <section id="hiring" class="mb-4">
-      <h2>Hiring Application</h2>
-      <form id="hiring-form">
-        <div class="form-group">
-          <input type="text" id="applicant-name" class="form-control" placeholder="Your Name" required>
-        </div>
-        <div class="form-group">
-          <input type="email" id="applicant-email" class="form-control" placeholder="Your Email" required>
-        </div>
-        <div class="form-group">
-          <input type="file" id="applicant-resume" class="form-control" accept=".pdf,.doc,.docx" required>
-        </div>
-        <button type="submit" class="btn btn-success">Submit Application</button>
-      </form>
-    </section>
-
-    <!-- Load Boards Section -->
-    <section id="load-boards" class="mb-4">
-      <h2>Access Load Boards</h2>
-      <table id="load-boards-table" class="table table-striped">
-        <thead>
-          <tr>
-            <th>Load Board</th>
-            <th>Website</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Relay/Amazon</td>
-            <td><a href="https://relay.amazon.com" target="_blank">Visit Relay/Amazon</a></td>
-          </tr>
-          <tr>
-            <td>DatOne</td>
-            <td><a href="https://www.dat.com" target="_blank">Visit DatOne</a></td>
-          </tr>
-          <tr>
-            <td>Uber Freight</td>
-            <td><a href="https://www.uberfreight.com" target="_blank">Visit Uber Freight</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Real-Time Updates Section -->
-    <section id="real-time-updates-section" class="mb-4">
-      <h2>Real-Time Updates</h2>
-      <p id="real-time-updates" class="alert alert-info">No updates at the moment.</p>
-    </section>
-  </div>
-
+    
       <!-- Trips table Section -->
 
   <div class="trips-table-container mt-4">
@@ -135,8 +52,6 @@
   <script src="js/manager.js"></script>
  
 
-    <!-- In your existing HTML file, add this to your main section -->
-<!-- Replace your current weather div with this -->
 <div id="weather">
   <h2>Current Weather</h2>
   <div class="input-group mb-3">
@@ -146,6 +61,89 @@
   <div id="weather-info" class="weather-card">
     <!-- Weather data will appear here -->
   </div>
+</div>
+<!-- Driver Management Section -->
+<section id="driver-management" class="mb-4">
+  <h2>Driver Management</h2>
+  <table id="driver-table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Driver Name</th> <!-- Table header -->
+        <th>Status</th>
+        <th>Assigned Loads</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Driver rows will be dynamically inserted using JS -->
+    </tbody>
+  </table>
+</section>
+
+<!-- Load Management Section -->
+<section id="load-management" class="mb-4">
+  <h2>Assign Loads to Drivers</h2>
+  <form id="assign-load-form" class="form-inline">
+    <div class="form-group mb-2">
+      <input type="text" id="load-name" class="form-control" placeholder="Load Name" required> <!-- Load name input -->
+    </div>
+    <div class="form-group mx-sm-3 mb-2">
+      <select id="driver-select" class="form-control">
+        <!-- Driver options populated dynamically -->
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Assign Load</button> <!-- Submit button -->
+  </form>
+</section>
+
+<!-- Hiring Application Section -->
+<section id="hiring" class="mb-4">
+  <h2>Hiring Application</h2>
+  <form id="hiring-form">
+    <div class="form-group">
+      <input type="text" id="applicant-name" class="form-control" placeholder="Your Name" required>
+    </div>
+    <div class="form-group">
+      <input type="email" id="applicant-email" class="form-control" placeholder="Your Email" required>
+    </div>
+    <div class="form-group">
+      <input type="file" id="applicant-resume" class="form-control" accept=".pdf,.doc,.docx" required>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Application</button>
+  </form>
+</section>
+
+<!-- Load Boards Section -->
+<section id="load-boards" class="mb-4">
+  <h2>Access Load Boards</h2>
+  <table id="load-boards-table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Load Board</th>
+        <th>Website</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Relay/Amazon</td>
+        <td><a href="https://relay.amazon.com" target="_blank">Visit Relay/Amazon</a></td>
+      </tr>
+      <tr>
+        <td>DatOne</td>
+        <td><a href="https://www.dat.com" target="_blank">Visit DatOne</a></td>
+      </tr>
+      <tr>
+        <td>Uber Freight</td>
+        <td><a href="https://www.uberfreight.com" target="_blank">Visit Uber Freight</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Real-Time Updates Section -->
+<section id="real-time-updates-section" class="mb-4">
+  <h2>Real-Time Updates</h2>
+  <p id="real-time-updates" class="alert alert-info">No updates at the moment.</p>
+</section>
 </div>
 
 
@@ -187,5 +185,6 @@
     .catch(e => console.error('Test failed:', e));
   </script>
 <script type="module" src="js/manager.js"></script>
+
 </body>
 </html>
