@@ -227,3 +227,22 @@ h1 {
     min-width: 60px;
   }
 }
+
+/* Trip Table Styles */
+.trips-table-container {
+  overflow-x: auto;
+}
+
+#trips-table {
+  min-width: 800px;
+}
+
+#trips-table th {
+  white-space: nowrap;
+}
+
+.stop-info {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
