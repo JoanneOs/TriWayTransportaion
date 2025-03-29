@@ -1,15 +1,17 @@
-// // At the top of manager.js
-// import tripsData from './trips.json' assert { type: 'json' };
-
-// // Replace loadTripsData() with:
-// async function loadTripsData() {
-//   return tripsData;
-// }
-
-// Main application controller
 // Configuration Constants
+
+//new cons for pay rate
+const PAY_RATE_PER_MILE = 1.2; // $1.20 per mile
+
+// Stores the API key used to fetch weather data from a weather service
 const WEATHER_API_KEY = '2a7d6ec8fb25451b9ac114954252903';
+
+// Defines the file path to the trips data in JSON format, used to load trip information
 const TRIPS_DATA_PATH = './js/trips.json';
+
+
+
+
 
 // Main application controller
 document.addEventListener('DOMContentLoaded', async function() {
@@ -18,10 +20,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const trips = await loadTrips();
     renderTrips(trips);
     
+// Added these lines inside the main initialization:
+const driverStats = calculateDriverStats(trips);
+renderDriverStats(driverStats);
+
+
     // Initialize other functionality
     initializeDriverManagement();
     setupRealTimeUpdates();
     initializeWeatherWidget();
+
+
     
   } catch (error) {
     console.error('Application failed to initialize:', error);
@@ -303,4 +312,63 @@ function testWeatherAPI() {
   fetchWeather('San Antonio')
     .then(data => console.log('Weather test successful:', data.location))
     .catch(err => console.error('Weather test failed:', err));
+}
+
+
+///ne wfunciton to calculate trip miles and drivers pay
+function calculateDriverStats(trips) {
+  const stats = {};
+  
+  trips.forEach(trip => {
+    const driverName = trip['Driver Name'];
+    if (!driverName || driverName === 'Unassigned') return;
+    
+    const miles = parseFloat(trip['Estimate Distance']) || 0;
+    
+    if (!stats[driverName]) {
+      stats[driverName] = {
+        totalMiles: 0,
+        totalPay: 0,
+        tripCount: 0
+      };
+    }
+    
+    stats[driverName].totalMiles += miles;
+    stats[driverName].totalPay += miles * PAY_RATE_PER_MILE;
+    stats[driverName].tripCount++;
+  });
+  
+  return stats;
+}
+
+function renderDriverStats(driverStats) {
+  const container = document.getElementById('driver-stats-container');
+  if (!container) return;
+  
+  const sortedDrivers = Object.entries(driverStats)
+    .sort((a, b) => b[1].totalMiles - a[1].totalMiles);
+  
+  container.innerHTML = `
+    <h3>Driver Performance</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Driver</th>
+          <th>Trips</th>
+          <th>Total Miles</th>
+          <th>Total Pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sortedDrivers.map(([name, stats]) => `
+          <tr>
+            <td>${name}</td>
+            <td>${stats.tripCount}</td>
+            <td>${stats.totalMiles.toFixed(1)} miles</td>
+            <td>$${stats.totalPay.toFixed(2)}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
 }
