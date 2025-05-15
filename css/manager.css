@@ -251,3 +251,12 @@ h1 {
   transition: transform 0.3s ease-out;
 }
 
+.live-pay-calculator {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+.live-pay {
+  color: #2ecc71;
+  font-size: 1.2em;
+}

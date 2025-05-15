@@ -185,6 +185,9 @@ function renderStopDetails(trip) {
   return html || '<p class="text-muted">No stop details available</p>';
 }
 
+
+
+
 // ======================
 // WEATHER WIDGET
 // ======================
@@ -367,6 +370,7 @@ function renderDriverStats(driverStats) {
             <td>$${stats.totalPay.toFixed(2)}</td>
           </tr>
         `).join('')}
+        
       </tbody>
     </table>
   `;
