@@ -47,10 +47,10 @@ body {
 
   body {
     font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
+    background-color: #f8f9fa;
     padding: 20px;
-}
+  }
+  
 
 h1 {
     color: #2c3e50;
