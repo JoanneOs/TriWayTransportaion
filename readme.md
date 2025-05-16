@@ -10,7 +10,7 @@ The app uses HTML, CSS, and JavaScript, along with the FullCalendar library for 
 
 This simple tool can be expanded in the future with real-time updates, data storage, and advanced scheduling features.
 
-What I've Been Adding: 3/38/2025
+What I've Been Adding: 3/38/2025..
 
 I took my basic same trucking website and made it way more useful for managers. I added a live weather check, so managers can type in a city like "San Antonio" and see the current weather.
 
